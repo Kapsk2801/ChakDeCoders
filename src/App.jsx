@@ -65,7 +65,7 @@ function App() {
   const handleProfileSave = async (updatedProfile) => {
     // In a real app, you would save to your backend here
     setCurrentUser(updatedProfile);
-    navigate('/');
+    navigate('/explore');
   };
 
   const handleBackToHome = () => {

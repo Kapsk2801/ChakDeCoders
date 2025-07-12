@@ -24,7 +24,8 @@ export const authAPI = {
         email: userData.email,
         password: userData.password,
         name: userData.name,
-        skills: userData.skills || [],
+        skillsOffered: userData.skillsOffered || [],
+        skillsWanted: userData.skillsWanted || [],
         bio: userData.bio || ''
       }),
     });

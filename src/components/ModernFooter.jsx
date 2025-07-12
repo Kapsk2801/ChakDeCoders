@@ -201,7 +201,7 @@ const ModernFooter = () => {
           className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
         >
           <div className="flex items-center space-x-2 text-gray-400">
-            <span>© 2025 SkillKarma. Made ChakDeCoders for Odoo</span>
+            <span>© 2025 SkillKarma. Made by ChakDeCoders for Odoo</span>
           </div>
           
           <motion.button

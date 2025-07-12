@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Header } from './components/Header';
 import { SearchAndFilter } from './components/SearchAndFilter';
 import { UserCard } from './components/UserCard';
 import { Pagination } from './components/Pagination';
 import { mockUsers } from './data/mockUsers';
-import { FilterOptions } from './types';
+import type { FilterOptions } from './types';
 
 const USERS_PER_PAGE = 6;
 

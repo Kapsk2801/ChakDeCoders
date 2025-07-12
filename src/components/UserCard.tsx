@@ -1,6 +1,6 @@
 import React from 'react';
 import { Star, MapPin, Clock, MessageCircle } from 'lucide-react';
-import { User } from '../types';
+import type { User } from '../types';
 
 interface UserCardProps {
   user: User;

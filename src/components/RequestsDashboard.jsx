@@ -5,6 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Star, User, MapPin, Clock } from 'lucide-react';
 import ModernNavbar from './ModernNavbar';
 import ModernFooter from './ModernFooter';
+import { motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const RequestsDashboard = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
   const [activeTab, setActiveTab] = useState('received');
@@ -14,6 +17,7 @@ const RequestsDashboard = ({ currentUser, onLogout, onLoginClick, onProfileClick
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -302,6 +306,16 @@ const RequestsDashboard = ({ currentUser, onLogout, onLoginClick, onProfileClick
       />
       {/* Main Content */}
       <main id="main-content" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
+        {/* Back to Explore Button */}
+        <motion.button
+          whileHover={{ scale: 1.05, x: -2 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate('/explore')}
+          className="group flex items-center text-gray-600 hover:text-gray-800 transition-all duration-200 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 hover:shadow-md mb-8"
+        >
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform duration-200" />
+          <span className="ml-2 font-medium">Back to Explore</span>
+        </motion.button>
         {/* Page Title */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">

@@ -20,3 +20,8 @@ export interface FilterOptions {
   searchTerm: string;
   availability: string;
 }
+
+export interface FilterOptions {
+  searchTerm: string;
+  availability: string;
+}

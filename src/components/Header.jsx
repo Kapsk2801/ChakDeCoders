@@ -1,6 +1,6 @@
-import { Users, LogOut, User } from 'lucide-react';
+import { Users, LogOut, User, Settings } from 'lucide-react';
 
-const Header = ({ currentUser, onLogout, onLoginClick }) => {
+const Header = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,7 +8,7 @@ const Header = ({ currentUser, onLogout, onLoginClick }) => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Users className="w-8 h-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-800">SkillSwap</h1>
+            <h1 className="text-2xl font-bold text-gray-800">SkillKarma</h1>
           </div>
 
           {/* User Actions */}
@@ -19,6 +19,13 @@ const Header = ({ currentUser, onLogout, onLoginClick }) => {
                   <User className="w-5 h-5 text-gray-600" />
                   <span className="text-gray-700 font-medium">{currentUser.name}</span>
                 </div>
+                <button
+                  onClick={onProfileClick}
+                  className="flex items-center gap-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200"
+                >
+                  <Settings className="w-4 h-4" />
+                  Profile
+                </button>
                 <button
                   onClick={onLogout}
                   className="flex items-center gap-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200"

@@ -4,11 +4,14 @@ export const mockUsers = [
     id: 1,
     name: "Sarah Chen",
     profilePhoto: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+    location: "San Francisco, CA",
     skillsOffered: ["React", "JavaScript", "UI/UX Design"],
     skillsWanted: ["Python", "Machine Learning"],
     rating: 4.8,
     availability: "Evenings",
-    isPublic: true
+    isPublic: true,
+    email: "sarah.chen@example.com",
+    bio: "Frontend developer passionate about creating beautiful user experiences. Always eager to learn new technologies!"
   },
   {
     id: 2,
@@ -126,5 +129,6 @@ export const availabilityOptions = [
   "All",
   "Weekends",
   "Evenings", 
+  "Weekdays",
   "Flexible"
 ];

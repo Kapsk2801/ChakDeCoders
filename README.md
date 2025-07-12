@@ -26,3 +26,15 @@ The platform should also support optional admin features like content moderation
 | Aayush Chawla    | `aayushchawla5554@gmail.com`      |
 | Lokesh Vyas    | `lokeshvyas.prof@gmail.com`      |
 | Zuhair Khambati    | `zuhairkhambati@gmail.com`      |
+
+
+.env file
+
+PORT=5000
+
+MONGODB_URI=mongodb+srv://admin:admin@cluster0.5lg5bj7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+NODE_ENV=development
+
+Test
+http://localhost:5000/health

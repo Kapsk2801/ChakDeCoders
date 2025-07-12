@@ -100,7 +100,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
       setSuccess(isSignUp ? 'Account created successfully!' : 'Login successful!');
       onLogin(userData);
       setTimeout(() => {
-        onClose();
+    onClose();
         setFormData({ 
           name: '', 
           email: '', 
@@ -157,7 +157,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const renderStep = () => {
     if (!isSignUp) {
       // Login form
-      return (
+  return (
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
@@ -215,13 +215,13 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200"
                 placeholder="Full name"
                 autoComplete="name"
@@ -282,7 +282,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                 placeholder="Confirm password"
                 autoComplete="new-password"
               />
-              <button
+          <button
                 type="button"
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
@@ -357,7 +357,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                 className="p-2 hover:bg-gray-100 rounded-xl transition-colors duration-200"
               >
                 <X className="w-6 h-6 text-gray-500" />
-              </button>
+          </button>
             </div>
 
             {/* Stepper */}
@@ -426,10 +426,10 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
             )}
             {error && <div className="px-6 pb-4 text-red-500 text-sm flex items-center gap-2"><AlertCircle className="w-4 h-4" />{error}</div>}
             {success && <div className="px-6 pb-4 text-green-600 text-sm flex items-center gap-2"><CheckCircle className="w-4 h-4" />{success}</div>}
-            {/* Toggle between login/signup */}
-            <div className="px-6 pb-6 text-center">
-              <p className="text-sm text-gray-600">
-                {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+        {/* Toggle between login/signup */}
+        <div className="px-6 pb-6 text-center">
+          <p className="text-sm text-gray-600">
+            {isSignUp ? 'Already have an account?' : "Don't have an account?"}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -444,8 +444,8 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
                 >
                   {isSignUp ? 'Sign In' : 'Sign Up'}
                 </motion.button>
-              </p>
-            </div>
+          </p>
+        </div>
           </motion.div>
         </motion.div>
       )}

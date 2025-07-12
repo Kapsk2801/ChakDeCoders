@@ -96,6 +96,12 @@ const RequestsDashboard = ({ currentUser }) => {
     }
   };
 
+  const statusColors = {
+    pending: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+    accepted: 'bg-green-100 text-green-800 border-green-300',
+    rejected: 'bg-red-100 text-red-800 border-red-300',
+  };
+
   const renderRequests = (requests, type) => {
     if (loading) return <p className="text-gray-500">Loading...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
@@ -103,7 +109,7 @@ const RequestsDashboard = ({ currentUser }) => {
       return <p className="text-gray-500">No {type} requests yet.</p>;
     }
     return (
-      <ul className="space-y-4">
+      <ul className="space-y-6">
         {requests.map((req) => {
           // Determine direction and user info
           let direction, otherUser;
@@ -115,57 +121,62 @@ const RequestsDashboard = ({ currentUser }) => {
             otherUser = req.receiver || req.recipient;
           }
           return (
-            <li key={req._id} className="border rounded p-4 bg-white shadow-sm flex items-center gap-4">
+            <li
+              key={req._id}
+              className="border rounded-2xl p-6 bg-gradient-to-br from-white via-gray-50 to-blue-50 shadow-md flex flex-col md:flex-row items-center gap-6 transition-transform duration-200 hover:scale-[1.015] hover:shadow-lg group"
+            >
               {/* Avatar */}
               <div className="flex-shrink-0">
                 {otherUser?.avatar ? (
-                  <img src={otherUser.avatar} alt={otherUser.name} className="w-12 h-12 rounded-full object-cover border" />
+                  <img src={otherUser.avatar} alt={otherUser.name} className="w-16 h-16 rounded-full object-cover border-2 border-blue-200 group-hover:border-blue-400 transition-all" />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-xl">
+                  <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-2xl border-2 border-blue-100 group-hover:border-blue-400 transition-all">
                     {otherUser?.name?.[0] || '?'}
                   </div>
                 )}
               </div>
               {/* Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-lg truncate">{otherUser?.name || 'Unknown User'}</span>
+              <div className="flex-1 min-w-0 w-full">
+                <div className="flex flex-col md:flex-row md:items-center md:gap-3 gap-1">
+                  <span className="font-semibold text-xl truncate">{otherUser?.name || 'Unknown User'}</span>
                   <span className="text-xs text-gray-500">({direction})</span>
+                  <span className={`ml-0 md:ml-2 px-2 py-1 rounded-full border text-xs font-semibold ${statusColors[req.status] || 'bg-gray-100 text-gray-700 border-gray-300'}`}>{req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
                 </div>
                 <div className="text-sm text-gray-600 truncate">{otherUser?.email}</div>
-                <div className="text-sm mt-1">
-                  <span className="font-medium">Skills Offered:</span> {req.skillsOffered?.join(', ') || '-'}
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Skills Offered: {req.skillsOffered?.join(', ') || '-'}</span>
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Skills Wanted: {req.skillsWanted?.join(', ') || '-'}</span>
                 </div>
-                <div className="text-sm">
-                  <span className="font-medium">Skills Wanted:</span> {req.skillsWanted?.join(', ') || '-'}
-                </div>
-                <div className="text-sm mt-1">
-                  <span className="font-medium">Status:</span> {req.status}
-                </div>
+                {req.scheduledTime && (
+                  <div className="text-xs text-purple-700 mt-1 font-medium flex items-center gap-1">
+                    <span className="inline-block w-2 h-2 bg-purple-400 rounded-full"></span>
+                    Scheduled: {new Date(req.scheduledTime).toLocaleString()}
+                  </div>
+                )}
                 {type === 'all' && (
-                  <div className="text-xs text-gray-500 mt-1">Type: {req._type.charAt(0).toUpperCase() + req._type.slice(1)}</div>
+                  <div className="text-xs text-gray-400 mt-1">Type: {req._type.charAt(0).toUpperCase() + req._type.slice(1)}</div>
                 )}
                 {req.meetLink && (
-                  <div className="text-xs text-blue-600 mt-1">
-                    <a href={req.meetLink} target="_blank" rel="noopener noreferrer" className="underline">Google Meet Link</a>
+                  <div className="text-xs text-blue-600 mt-2">
+                    <a href={req.meetLink} target="_blank" rel="noopener noreferrer" className="underline font-semibold">Google Meet Link</a>
                   </div>
                 )}
               </div>
               {/* Actions */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 mt-4 md:mt-0 md:ml-4 w-full md:w-auto">
                 {((type === 'received' || (type === 'all' && req._type === 'received')) && req.status === 'pending') && (
                   <>
                     <button
                       onClick={() => handleAccept(req._id)}
                       disabled={actionLoading === req._id + '-accept'}
-                      className="px-4 py-1 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                      className="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 font-semibold shadow-sm transition-all"
                     >
                       {actionLoading === req._id + '-accept' ? 'Accepting...' : 'Accept'}
                     </button>
                     <button
                       onClick={() => handleReject(req._id)}
                       disabled={actionLoading === req._id + '-reject'}
-                      className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
+                      className="px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50 font-semibold shadow-sm transition-all"
                     >
                       {actionLoading === req._id + '-reject' ? 'Rejecting...' : 'Reject'}
                     </button>
@@ -175,7 +186,7 @@ const RequestsDashboard = ({ currentUser }) => {
                   <button
                     onClick={() => handleCancel(req._id)}
                     disabled={actionLoading === req._id + '-cancel'}
-                    className="px-4 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:opacity-50"
+                    className="px-5 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-50 font-semibold shadow-sm transition-all"
                   >
                     {actionLoading === req._id + '-cancel' ? 'Cancelling...' : 'Cancel'}
                   </button>

@@ -1,10 +1,6 @@
 import React from 'react';
 import { Search, Filter } from 'lucide-react';
-<<<<<<< HEAD
-import type { FilterOptions } from '../types';
-=======
 import { SearchFilters } from '../types';
->>>>>>> 346f82a2090875c40d5c4edc95718334345f18dc
 
 interface SearchAndFilterProps {
   filters: SearchFilters;

@@ -1,21 +1,14 @@
-<<<<<<< HEAD
 import { useState, useMemo, useEffect } from 'react';
-=======
-import { useState } from 'react';
->>>>>>> 2a7dc7acca44648a1c0e495455decd1bcbb81e71
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import ProfilePage from './components/ProfilePage';
-<<<<<<< HEAD
+import LandingPage from './components/LandingPage';
+import PageTransition from './components/PageTransition';
 import HeroSection from './components/HeroSection';
 import AIMatchingSystem from './components/AIMatchingSystem';
 import VoiceSkillRecognition from './components/VoiceSkillRecognition';
 import { mockUsers, availabilityOptions } from './data/mockUsers';
 import { authAPI, tokenManager } from './services/api';
-=======
-import LandingPage from './components/LandingPage';
-import PageTransition from './components/PageTransition';
->>>>>>> 2a7dc7acca44648a1c0e495455decd1bcbb81e71
 import './App.css';
 
 // Import new page components

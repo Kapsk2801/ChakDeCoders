@@ -1,19 +1,19 @@
 import { useState, useMemo } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import UserCard from './components/UserCard';
 import SearchAndFilter from './components/SearchAndFilter';
 import Pagination from './components/Pagination';
 import LoginModal from './components/LoginModal';
 import SwapModal from './components/SwapModal';
+import ProfilePage from './components/ProfilePage';
 import { mockUsers, availabilityOptions } from './data/mockUsers';
 import './App.css';
 
-function App() {
-  // Authentication state
-  const [currentUser, setCurrentUser] = useState(null);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  
+// HomePage Component
+function HomePage({ currentUser, onLogout, onLoginClick, onProfileClick }) {
   // Modal states
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSwapModal, setShowSwapModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   
@@ -63,11 +63,7 @@ function App() {
 
   // Authentication handlers
   const handleLogin = (userData) => {
-    setCurrentUser(userData);
-  };
-
-  const handleLogout = () => {
-    setCurrentUser(null);
+    onLoginClick(userData);
   };
 
   // Request button handler
@@ -85,8 +81,9 @@ function App() {
       {/* Header */}
       <Header 
         currentUser={currentUser}
-        onLogout={handleLogout}
+        onLogout={onLogout}
         onLoginClick={() => setShowLoginModal(true)}
+        onProfileClick={onProfileClick}
       />
 
       {/* Main Content */}
@@ -166,4 +163,67 @@ function App() {
   );
 }
 
-export default App;
+// Main App Component
+function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogin = (userData) => {
+    setCurrentUser(userData);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
+  const handleProfileSave = async (updatedProfile) => {
+    // In a real app, you would save to your backend here
+    setCurrentUser(updatedProfile);
+    navigate('/');
+  };
+
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
+  return (
+    <Routes>
+      <Route 
+        path="/" 
+        element={
+          <HomePage 
+            currentUser={currentUser}
+            onLogout={handleLogout}
+            onLoginClick={handleLogin}
+            onProfileClick={handleProfileClick}
+          />
+        } 
+      />
+      <Route 
+        path="/profile" 
+        element={
+          <ProfilePage 
+            currentUser={currentUser}
+            onBack={handleBackToHome}
+            onSave={handleProfileSave}
+          />
+        } 
+      />
+    </Routes>
+  );
+}
+
+// Wrapper component to provide Router context
+function AppWrapper() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
+
+export default AppWrapper;

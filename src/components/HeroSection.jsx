@@ -4,6 +4,7 @@ import { Sparkles, Zap, Users, Target, ArrowRight, Star } from 'lucide-react';
 const HeroSection = () => {
   const [particles, setParticles] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [hoveredCard, setHoveredCard] = useState(null);
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
 
@@ -118,6 +119,46 @@ const HeroSection = () => {
     }
   };
 
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const featureCards = [
+    {
+      id: 'ai-matching-section',
+      title: 'AI-Powered Matching',
+      description: 'Advanced algorithms find your perfect skill exchange partners',
+      icon: Sparkles,
+      color: 'purple',
+      gradient: 'from-purple-500 to-purple-600',
+      borderColor: 'border-purple-500/30',
+      hoverColor: 'hover:border-purple-400/50'
+    },
+    {
+      id: 'voice-recognition-section',
+      title: 'Voice Recognition',
+      description: 'Speak your skills and let AI detect them automatically',
+      icon: Zap,
+      color: 'cyan',
+      gradient: 'from-cyan-500 to-cyan-600',
+      borderColor: 'border-cyan-500/30',
+      hoverColor: 'hover:border-cyan-400/50'
+    },
+    {
+      id: 'ar-preview-section',
+      title: 'AR Skill Preview',
+      description: 'Experience your skills in stunning augmented reality',
+      icon: Users,
+      color: 'pink',
+      gradient: 'from-pink-500 to-pink-600',
+      borderColor: 'border-pink-500/30',
+      hoverColor: 'hover:border-pink-400/50'
+    }
+  ];
+
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-pink-900 overflow-hidden">
       {/* Animated Background Canvas */}
@@ -168,68 +209,92 @@ const HeroSection = () => {
 
               {/* Feature Highlights */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-purple-500/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center justify-center w-12 h-12 bg-purple-500 rounded-full mx-auto mb-4">
-                    <Sparkles className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">AI-Powered Matching</h3>
-                  <p className="text-gray-300 text-sm">
-                    Advanced algorithms find your perfect skill exchange partners
-                  </p>
-                </div>
+                {featureCards.map((card, index) => {
+                  const IconComponent = card.icon;
+                  return (
+                    <div
+                      key={card.id}
+                      onClick={() => scrollToSection(card.id)}
+                      onMouseEnter={() => setHoveredCard(index)}
+                      onMouseLeave={() => setHoveredCard(null)}
+                      className={`group relative bg-white/10 backdrop-blur-sm p-6 rounded-2xl border ${card.borderColor} ${card.hoverColor} transition-all duration-500 transform hover:scale-105 hover:bg-white/20 cursor-pointer overflow-hidden`}
+                      style={{
+                        transform: hoveredCard === index ? 'scale(1.05) translateY(-10px)' : 'scale(1)',
+                        boxShadow: hoveredCard === index ? '0 20px 40px rgba(0,0,0,0.3)' : '0 4px 6px rgba(0,0,0,0.1)'
+                      }}
+                    >
+                      {/* Animated background gradient */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                      
+                      {/* Floating particles effect */}
+                      {hoveredCard === index && (
+                        <div className="absolute inset-0 overflow-hidden">
+                          {[...Array(6)].map((_, i) => (
+                            <div
+                              key={i}
+                              className={`absolute w-1 h-1 bg-${card.color}-400 rounded-full animate-ping`}
+                              style={{
+                                left: `${20 + i * 15}%`,
+                                top: `${30 + i * 10}%`,
+                                animationDelay: `${i * 0.2}s`
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
 
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-cyan-500/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center justify-center w-12 h-12 bg-cyan-500 rounded-full mx-auto mb-4">
-                    <Zap className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Voice Recognition</h3>
-                  <p className="text-gray-300 text-sm">
-                    Speak your skills and let AI detect them automatically
-                  </p>
-                </div>
-
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-pink-500/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center justify-center w-12 h-12 bg-pink-500 rounded-full mx-auto mb-4">
-                    <Users className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">AR Skill Preview</h3>
-                  <p className="text-gray-300 text-sm">
-                    Experience your skills in stunning augmented reality
-                  </p>
-                </div>
+                      <div className="relative z-10">
+                        <div className={`flex items-center justify-center w-12 h-12 bg-gradient-to-r ${card.gradient} rounded-full mx-auto mb-4 transition-transform duration-300 group-hover:scale-110`}>
+                          <IconComponent className="w-6 h-6 text-white" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-gray-100 transition-colors duration-300">
+                          {card.title}
+                        </h3>
+                        <p className="text-gray-300 text-sm group-hover:text-gray-200 transition-colors duration-300">
+                          {card.description}
+                        </p>
+                        
+                        {/* Hover indicator */}
+                        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                          <ArrowRight className={`w-4 h-4 text-${card.color}-400`} />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
                 <button 
                   onClick={scrollToMainContent}
-                  className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-2xl"
+                  className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-purple-500/25"
                 >
                   <span className="flex items-center gap-2">
                     Get Started
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
                 </button>
 
-                <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-full border border-white/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-full border border-white/30 hover:bg-white/20 transition-all duration-500 transform hover:scale-105 hover:border-white/50">
                   Watch Demo
                 </button>
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-3 gap-8 mt-16">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-400">10K+</div>
-                  <div className="text-gray-400 text-sm">Active Users</div>
+                <div className="text-center group">
+                  <div className="text-3xl font-bold text-purple-400 group-hover:text-purple-300 transition-colors duration-300">10K+</div>
+                  <div className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300">Active Users</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-cyan-400">50K+</div>
-                  <div className="text-gray-400 text-sm">Skills Exchanged</div>
+                <div className="text-center group">
+                  <div className="text-3xl font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">50K+</div>
+                  <div className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300">Skills Exchanged</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-pink-400">95%</div>
-                  <div className="text-gray-400 text-sm">Success Rate</div>
+                <div className="text-center group">
+                  <div className="text-3xl font-bold text-pink-400 group-hover:text-pink-300 transition-colors duration-300">95%</div>
+                  <div className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300">Success Rate</div>
                 </div>
               </div>
             </div>

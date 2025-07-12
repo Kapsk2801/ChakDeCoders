@@ -45,8 +45,8 @@ const ModernFooter = () => {
   const socialLinks = [
     { name: 'Twitter', icon: Twitter, href: '#' },
     { name: 'LinkedIn', icon: Linkedin, href: '#' },
-    { name: 'GitHub', icon: Github, href: '#' },
-    { name: 'Email', icon: Mail, href: 'mailto:hello@skillkarma.com' }
+    { name: 'GitHub', icon: Github, href: 'https://github.com/Kapsk2801/ChakDeCoders' },
+    { name: 'Email', icon: Mail, href: 'mailto:zuhairkhambati@gmail.com' }
   ];
 
   return (
@@ -181,11 +181,11 @@ const ModernFooter = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-purple-400" />
-              <span className="text-gray-400">San Francisco, CA</span>
+              <span className="text-gray-400">MPSTME NMIMS</span>
             </div>
             <div className="flex items-center space-x-3">
               <Phone className="w-5 h-5 text-purple-400" />
-              <span className="text-gray-400">+1 (555) 123-4567</span>
+              <span className="text-gray-400">+91 8745127125</span>
             </div>
             <div className="flex items-center space-x-3">
               <Globe className="w-5 h-5 text-purple-400" />
@@ -202,9 +202,7 @@ const ModernFooter = () => {
           className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
         >
           <div className="flex items-center space-x-2 text-gray-400">
-            <span>© 2024 SkillKarma. Made with</span>
-            <Heart className="w-4 h-4 text-red-500" />
-            <span>for the community.</span>
+            <span>© 2025 SkillKarma. Made ChakDeCoders for Odoo</span>
           </div>
           
           <motion.button

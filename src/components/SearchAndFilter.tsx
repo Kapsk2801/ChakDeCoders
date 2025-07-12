@@ -1,10 +1,10 @@
 import React from 'react';
 import { Search, Filter } from 'lucide-react';
-import { FilterOptions } from '../types';
+import { SearchFilters } from '../types';
 
 interface SearchAndFilterProps {
-  filters: FilterOptions;
-  onFiltersChange: (filters: FilterOptions) => void;
+  filters: SearchFilters;
+  onFiltersChange: (filters: SearchFilters) => void;
 }
 
 export const SearchAndFilter: React.FC<SearchAndFilterProps> = ({

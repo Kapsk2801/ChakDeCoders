@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { useInView as useIntersectionObserver } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import { 
   Sparkles, Zap, Users, Target, ArrowRight, Star, 
@@ -353,9 +352,10 @@ const HeroSection = () => {
 
 // Features Section Component
 const FeaturesSection = ({ features }) => {
-  const [ref, inView] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1
   });
 
   return (
@@ -404,9 +404,10 @@ const FeaturesSection = ({ features }) => {
 
 // How It Works Section
 const HowItWorksSection = () => {
-  const [ref, inView] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1
   });
 
   const steps = [
@@ -480,9 +481,10 @@ const HowItWorksSection = () => {
 
 // Stats Section
 const StatsSection = ({ stats }) => {
-  const [ref, inView] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1
   });
 
   return (
@@ -527,9 +529,10 @@ const StatsSection = ({ stats }) => {
 
 // Testimonials Section
 const TestimonialsSection = ({ testimonials, currentTestimonial, setCurrentTestimonial }) => {
-  const [ref, inView] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1
   });
 
   return (
@@ -605,9 +608,10 @@ const TestimonialsSection = ({ testimonials, currentTestimonial, setCurrentTesti
 
 // Pricing Section
 const PricingSection = () => {
-  const [ref, inView] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1
   });
 
   const plans = [
@@ -722,9 +726,10 @@ const PricingSection = () => {
 
 // CTA Section
 const CTASection = () => {
-  const [ref, inView] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1
   });
 
   return (

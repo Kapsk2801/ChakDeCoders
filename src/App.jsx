@@ -18,7 +18,11 @@ import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ExplorePage from './pages/ExplorePage';
+<<<<<<< HEAD
 import ScrollToTop from './components/ScrollToTop';
+=======
+import UserProfilePage from './pages/UserProfilePage';
+>>>>>>> 9a93e37dcbd9272a667ddcace1738855f8c29221
 
 // Main App Component
 function App() {
@@ -118,6 +122,14 @@ function App() {
                 onBack={() => navigate('/explore')}
                 onSave={handleProfileSave}
               />
+            </PageTransition>
+          } 
+        />
+        <Route 
+          path="/profile/:id" 
+          element={
+            <PageTransition>
+              <UserProfilePage currentUser={currentUser} />
             </PageTransition>
           } 
         />

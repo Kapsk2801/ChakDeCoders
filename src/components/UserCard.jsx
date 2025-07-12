@@ -1,9 +1,11 @@
 import { Star, User, MapPin, Clock, MessageCircle, Heart, Share2 } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   const handleRequestClick = () => {
     onRequestClick(user, isLoggedIn);
@@ -179,6 +181,13 @@ const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
               <MessageCircle className="w-4 h-4" />
               Request Swap
             </div>
+          </button>
+          
+          <button
+            className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded-xl transition-all duration-200 border border-gray-200"
+            onClick={() => navigate(`/profile/${user.id}`)}
+          >
+            View Profile
           </button>
         </div>
       </div>

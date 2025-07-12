@@ -19,11 +19,10 @@ import ContactPage from './pages/ContactPage';
 import ExplorePage from './pages/ExplorePage';
 import ScrollToTop from './components/ScrollToTop';
 import UserProfilePage from './pages/UserProfilePage';
-<<<<<<< HEAD
 import RequestsDashboard from './components/RequestsDashboard';
-=======
 import FavouritesPage from './pages/FavouritesPage';
->>>>>>> 35627ec96ea50a6c862bb9ec9868327107ab3fdd
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Main App Component
 function App() {
@@ -86,132 +85,136 @@ function App() {
   }
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes>
-        <Route 
-          path="/" 
-          element={
-            <PageTransition>
-              <LandingPage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/explore" 
-          element={
-            <PageTransition>
-              <ExplorePage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/profile" 
-          element={
-            <PageTransition>
-              <ProfilePage 
-                currentUser={currentUser}
-                onBack={() => navigate('/explore')}
-                onSave={handleProfileSave}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/profile/:userId" 
-          element={
-            <PageTransition>
-              <UserProfilePage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/features" 
-          element={
-            <PageTransition>
-              <FeaturesPage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/how-it-works" 
-          element={
-            <PageTransition>
-              <HowItWorksPage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/about" 
-          element={
-            <PageTransition>
-              <AboutPage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-          path="/contact" 
-          element={
-            <PageTransition>
-              <ContactPage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
-<<<<<<< HEAD
-          path="/requests" 
-          element={
-            <PageTransition>
-              <RequestsDashboard currentUser={currentUser} />
-=======
-          path="/favourites" 
-          element={
-            <PageTransition>
-              <FavouritesPage 
-                currentUser={currentUser}
-                onRequestClick={() => {}}
-                isLoggedIn={!!currentUser}
-              />
->>>>>>> 35627ec96ea50a6c862bb9ec9868327107ab3fdd
-            </PageTransition>
-          } 
-        />
-      </Routes>
-    </AnimatePresence>
+    <>
+      <ToastContainer position="top-right" autoClose={2500} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss pauseOnHover />
+      <AnimatePresence mode="wait">
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <PageTransition>
+                <LandingPage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/explore" 
+            element={
+              <PageTransition>
+                <ExplorePage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <PageTransition>
+                <ProfilePage 
+                  currentUser={currentUser}
+                  onBack={() => navigate('/explore')}
+                  onSave={handleProfileSave}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/profile/:userId" 
+            element={
+              <PageTransition>
+                <UserProfilePage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/features" 
+            element={
+              <PageTransition>
+                <FeaturesPage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/how-it-works" 
+            element={
+              <PageTransition>
+                <HowItWorksPage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/about" 
+            element={
+              <PageTransition>
+                <AboutPage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/contact" 
+            element={
+              <PageTransition>
+                <ContactPage 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/requests" 
+            element={
+              <PageTransition>
+                <RequestsDashboard currentUser={currentUser} />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/favourites" 
+            element={
+              <PageTransition>
+                <FavouritesPage 
+                  currentUser={currentUser}
+                  onRequestClick={() => {}}
+                  isLoggedIn={!!currentUser}
+                />
+              </PageTransition>
+            } 
+          />
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 }
 

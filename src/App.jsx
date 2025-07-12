@@ -18,6 +18,7 @@ import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ExplorePage from './pages/ExplorePage';
+import UserProfilePage from './pages/UserProfilePage';
 
 // Main App Component
 function App() {
@@ -117,6 +118,14 @@ function App() {
                 onBack={handleBackToHome}
                 onSave={handleProfileSave}
               />
+            </PageTransition>
+          } 
+        />
+        <Route 
+          path="/profile/:id" 
+          element={
+            <PageTransition>
+              <UserProfilePage currentUser={currentUser} />
             </PageTransition>
           } 
         />

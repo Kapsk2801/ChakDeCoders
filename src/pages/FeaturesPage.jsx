@@ -5,6 +5,10 @@ import {
 } from 'lucide-react';
 import ModernNavbar from '../components/ModernNavbar';
 import ModernFooter from '../components/ModernFooter';
+import AIMatchingSystem from '../components/AIMatchingSystem';
+import VoiceSkillRecognition from '../components/VoiceSkillRecognition';
+import ARSkillPreview from '../components/ARSkillPreview';
+import { mockUsers } from '../data/mockUsers';
 
 const FeaturesPage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
   const features = [
@@ -122,6 +126,70 @@ const FeaturesPage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
             </motion.div>
           ))}
         </div>
+
+        {/* AI Tools Demo Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mt-16"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Experience Our AI-Powered Tools
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Try out our cutting-edge AI features that make skill exchange more intelligent and efficient
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            {/* AI Matching System */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="bg-white rounded-2xl p-6 shadow-lg"
+            >
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">AI Matching System</h3>
+              <AIMatchingSystem 
+                currentUser={currentUser}
+                allUsers={mockUsers}
+              />
+            </motion.div>
+
+            {/* Voice Skill Recognition */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="bg-white rounded-2xl p-6 shadow-lg"
+            >
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">Voice Skill Recognition</h3>
+              <VoiceSkillRecognition 
+                onSkillsDetected={(skills) => {
+                  console.log('Voice skills detected:', skills);
+                }}
+              />
+            </motion.div>
+          </div>
+
+          {/* AR Skill Preview */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-2xl p-6 shadow-lg"
+          >
+            <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">AR Skill Preview</h3>
+            <div className="max-w-4xl mx-auto">
+              <ARSkillPreview 
+                skills={currentUser ? [...(currentUser.skillsOffered || []), ...(currentUser.skillsWanted || [])] : ['JavaScript', 'React', 'Python', 'Design', 'Marketing']}
+                user={currentUser || { name: 'Demo User' }}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* CTA Section */}
         <motion.div

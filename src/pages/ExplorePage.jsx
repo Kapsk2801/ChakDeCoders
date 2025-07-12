@@ -5,9 +5,7 @@ import SearchAndFilter from '../components/SearchAndFilter';
 import Pagination from '../components/Pagination';
 import LoginModal from '../components/LoginModal';
 import SwapModal from '../components/SwapModal';
-import AIMatchingSystem from '../components/AIMatchingSystem';
-import VoiceSkillRecognition from '../components/VoiceSkillRecognition';
-import ARSkillPreview from '../components/ARSkillPreview';
+
 import SmoothScrollSection from '../components/SmoothScrollSection';
 import { availabilityOptions } from '../data/mockUsers';
 import { userAPI } from '../services/api';
@@ -144,7 +142,7 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
 
         {/* Loading State */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="space-y-4 mb-8">
             {[...Array(6)].map((_, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md p-6 animate-pulse">
                 <div className="flex items-center mb-4">
@@ -164,9 +162,9 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
           </div>
         )}
 
-        {/* User Grid */}
+        {/* User List (vertical) */}
         {!loading && users.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="space-y-4 mb-8">
             {users.map(user => (
               <UserCard
                 key={user._id}
@@ -199,56 +197,7 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
           />
         )}
 
-        {/* AI-Powered Features Section */}
-        <SmoothScrollSection className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Experience the Future of Skill Exchange
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Powered by cutting-edge AI technology for seamless skill matching and voice recognition
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* AI Matching System */}
-            <SmoothScrollSection id="ai-matching-section" className="transition-all duration-700 delay-100">
-              <AIMatchingSystem 
-                currentUser={currentUser}
-                allUsers={users}
-              />
-            </SmoothScrollSection>
-
-            {/* Voice Skill Recognition */}
-            <SmoothScrollSection id="voice-recognition-section" className="transition-all duration-700 delay-200">
-              <VoiceSkillRecognition 
-                onSkillsDetected={(skills) => {
-                  console.log('Voice skills detected:', skills);
-                  // In a real app, this would update the user's skills
-                }}
-              />
-            </SmoothScrollSection>
-          </div>
-        </SmoothScrollSection>
-
-        {/* AR Preview Section */}
-        <SmoothScrollSection id="ar-preview-section" className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Augmented Reality Skill Preview
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Experience your skills in stunning 3D visualization with interactive holographic displays
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <ARSkillPreview 
-              skills={currentUser ? [...(currentUser.skillsOffered || []), ...(currentUser.skillsWanted || [])] : ['JavaScript', 'React', 'Python', 'Design', 'Marketing']}
-              user={currentUser || { name: 'Demo User' }}
-            />
-          </div>
-        </SmoothScrollSection>
       </main>
 
       {/* Modals */}

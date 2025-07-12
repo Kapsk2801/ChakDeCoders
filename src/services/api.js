@@ -72,6 +72,61 @@ export const authAPI = {
   },
 };
 
+// API service for user operations
+export const userAPI = {
+  // Get all public users for skill exchange
+  getUsers: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const response = await fetch(`${API_BASE_URL}/users?${queryParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    return handleResponse(response);
+  },
+
+  // Get user by ID
+  getUserById: async (userId) => {
+    const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    return handleResponse(response);
+  },
+
+  // Update user profile
+  updateProfile: async (token, profileData) => {
+    const response = await fetch(`${API_BASE_URL}/users/profile`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profileData),
+    });
+    
+    return handleResponse(response);
+  },
+
+  // Get current user's profile
+  getMyProfile: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/users/profile/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    return handleResponse(response);
+  },
+};
+
 // Token management
 export const tokenManager = {
   // Save token to localStorage

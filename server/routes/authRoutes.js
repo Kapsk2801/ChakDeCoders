@@ -53,8 +53,13 @@ router.post('/signup', async (req, res) => {
       email,
       password: hashedPassword,
       name,
-      skills: skills || [],
-      bio: bio || ''
+      skillsOffered: skills || [],
+      skillsWanted: [],
+      bio: bio || '',
+      location: '',
+      rating: 0,
+      availability: 'Flexible',
+      isPublic: true
     });
 
     if (user) {
@@ -65,9 +70,14 @@ router.post('/signup', async (req, res) => {
         _id: user._id,
         email: user.email,
         name: user.name,
-        skills: user.skills,
+        skillsOffered: user.skillsOffered,
+        skillsWanted: user.skillsWanted,
         bio: user.bio,
         avatar: user.avatar,
+        location: user.location,
+        rating: user.rating,
+        availability: user.availability,
+        isPublic: user.isPublic,
         token
       });
     } else {
@@ -116,9 +126,14 @@ router.post('/login', async (req, res) => {
       _id: user._id,
       email: user.email,
       name: user.name,
-      skills: user.skills,
+      skillsOffered: user.skillsOffered,
+      skillsWanted: user.skillsWanted,
       bio: user.bio,
       avatar: user.avatar,
+      location: user.location,
+      rating: user.rating,
+      availability: user.availability,
+      isPublic: user.isPublic,
       token
     });
   } catch (error) {

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserCard from '../components/UserCard';
 import SearchAndFilter from '../components/SearchAndFilter';
@@ -9,7 +9,8 @@ import AIMatchingSystem from '../components/AIMatchingSystem';
 import VoiceSkillRecognition from '../components/VoiceSkillRecognition';
 import ARSkillPreview from '../components/ARSkillPreview';
 import SmoothScrollSection from '../components/SmoothScrollSection';
-import { mockUsers, availabilityOptions } from '../data/mockUsers';
+import { availabilityOptions } from '../data/mockUsers';
+import { userAPI } from '../services/api';
 import ModernNavbar from '../components/ModernNavbar';
 import ModernFooter from '../components/ModernFooter';
 
@@ -21,48 +22,63 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
   const [showSwapModal, setShowSwapModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   
+  // Data states
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalUsers: 0,
+    usersPerPage: 6
+  });
+  
   // Search and filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAvailability, setSelectedAvailability] = useState('All');
-  
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 6;
 
-  // Filter users based on search and availability
-  const filteredUsers = useMemo(() => {
-    return mockUsers.filter(user => {
-      if (!user.isPublic) return false;
+  // Fetch users from API
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError('');
       
-      // Search filter
-      const searchLower = searchTerm.toLowerCase();
-      const matchesSearch = searchTerm === '' || 
-        user.skillsOffered.some(skill => skill.toLowerCase().includes(searchLower)) ||
-        user.skillsWanted.some(skill => skill.toLowerCase().includes(searchLower)) ||
-        user.name.toLowerCase().includes(searchLower);
+      const params = {
+        page: pagination.currentPage,
+        limit: pagination.usersPerPage,
+        ...(searchTerm && { search: searchTerm }),
+        ...(selectedAvailability !== 'All' && { availability: selectedAvailability })
+      };
       
-      // Availability filter
-      const matchesAvailability = selectedAvailability === 'All' || 
-        user.availability === selectedAvailability;
-      
-      return matchesSearch && matchesAvailability;
-    });
-  }, [searchTerm, selectedAvailability]);
+      const data = await userAPI.getUsers(params);
+      setUsers(data.users);
+      setPagination(data.pagination);
+    } catch (err) {
+      setError('Failed to load users. Please try again.');
+      console.error('Error fetching users:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-  const startIndex = (currentPage - 1) * usersPerPage;
-  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + usersPerPage);
+  // Fetch users when dependencies change
+  useEffect(() => {
+    fetchUsers();
+  }, [searchTerm, selectedAvailability, pagination.currentPage]);
 
   // Reset to first page when filters change
   const handleSearchChange = (term) => {
     setSearchTerm(term);
-    setCurrentPage(1);
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
   const handleAvailabilityChange = (availability) => {
     setSelectedAvailability(availability);
-    setCurrentPage(1);
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  };
+
+  const handlePageChange = (page) => {
+    setPagination(prev => ({ ...prev, currentPage: page }));
   };
 
   // Authentication handlers
@@ -112,26 +128,58 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
           availabilityOptions={availabilityOptions}
         />
 
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
+
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
-            Showing {paginatedUsers.length} of {filteredUsers.length} skill exchange partners
+            {loading ? 'Loading...' : `Showing ${users.length} of ${pagination.totalUsers} skill exchange partners`}
           </p>
         </div>
 
-        {/* User Grid */}
-        {paginatedUsers.length > 0 ? (
+        {/* Loading State */}
+        {loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {paginatedUsers.map(user => (
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-md p-6 animate-pulse">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-300 rounded w-2/3"></div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-3 bg-gray-300 rounded"></div>
+                  <div className="h-3 bg-gray-300 rounded w-4/5"></div>
+                  <div className="h-3 bg-gray-300 rounded w-3/5"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* User Grid */}
+        {!loading && users.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {users.map(user => (
               <UserCard
-                key={user.id}
+                key={user._id}
                 user={user}
                 onRequestClick={handleRequestClick}
                 isLoggedIn={!!currentUser}
               />
             ))}
           </div>
-        ) : (
+        )}
+
+        {/* No Results */}
+        {!loading && users.length === 0 && !error && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">
               No skill exchange partners found matching your criteria.
@@ -143,11 +191,13 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
         )}
 
         {/* Pagination */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+        {!loading && pagination.totalPages > 1 && (
+          <Pagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
 
         {/* AI-Powered Features Section */}
         <SmoothScrollSection className="mt-16">
@@ -165,7 +215,7 @@ const ExplorePage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
             <SmoothScrollSection id="ai-matching-section" className="transition-all duration-700 delay-100">
               <AIMatchingSystem 
                 currentUser={currentUser}
-                allUsers={mockUsers}
+                allUsers={users}
               />
             </SmoothScrollSection>
 

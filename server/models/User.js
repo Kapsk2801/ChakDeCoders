@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  skills: [{
+  skillsOffered: [{
+    type: String,
+    trim: true
+  }],
+  skillsWanted: [{
     type: String,
     trim: true
   }],
@@ -30,6 +34,26 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: ''
+  },
+  location: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  rating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 5
+  },
+  availability: {
+    type: String,
+    enum: ['Weekends', 'Evenings', 'Weekdays', 'Flexible'],
+    default: 'Flexible'
+  },
+  isPublic: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true

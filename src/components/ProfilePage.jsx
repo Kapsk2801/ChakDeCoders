@@ -22,6 +22,8 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
       setProfile({
         ...defaultUserProfile,
         ...currentUser,
+        skillsOffered: currentUser.skillsOffered || [],
+        skillsWanted: currentUser.skillsWanted || [],
         availability: currentUser.availability ? [currentUser.availability] : []
       });
       setImagePreview(currentUser.profilePhoto);

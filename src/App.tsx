@@ -4,7 +4,7 @@ import { SearchAndFilter } from './components/SearchAndFilter';
 import { UserCard } from './components/UserCard';
 import { Pagination } from './components/Pagination';
 import { mockUsers } from './data/mockUsers';
-import { SearchFilters } from './types';
+import type { SearchFilters } from './types';
 
 const USERS_PER_PAGE = 6;
 

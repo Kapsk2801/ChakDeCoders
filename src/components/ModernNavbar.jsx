@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Bell } from 'lucide-react';
+import { requestAPI, tokenManager } from '../services/api';
 
 const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifDropdown, setShowNotifDropdown] = useState(false);
+  const [notifLoading, setNotifLoading] = useState(false);
   const location = useLocation();
 
   const navItems = [
@@ -24,6 +28,27 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
     }
     return location.pathname === href;
   };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (!currentUser) return;
+      setNotifLoading(true);
+      try {
+        const token = tokenManager.getToken();
+        const data = await requestAPI.getReceived(token);
+        // Only show pending requests as notifications
+        setNotifications((data.requests || data || []).filter(r => r.status === 'pending'));
+      } catch (err) {
+        setNotifications([]);
+      } finally {
+        setNotifLoading(false);
+      }
+    };
+    fetchNotifications();
+    // Optionally, poll every 30s
+    const interval = setInterval(fetchNotifications, 3000);
+    return () => clearInterval(interval);
+  }, [currentUser]);
 
   return (
     <motion.nav
@@ -70,6 +95,52 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
             ))}
           </div>
 
+          {/* Notification Bell */}
+          {currentUser && (
+            <div className="relative mr-4">
+              <button
+                className="relative focus:outline-none"
+                onClick={() => setShowNotifDropdown((v) => !v)}
+                aria-label="Notifications"
+              >
+                <Bell className="w-6 h-6 text-gray-700 hover:text-purple-600 transition-colors" />
+                {notifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 font-bold animate-pulse">
+                    {notifications.length}
+                  </span>
+                )}
+              </button>
+              {/* Dropdown */}
+              {showNotifDropdown && (
+                <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50">
+                  <div className="px-4 py-2 font-semibold text-gray-800 border-b">New Requests</div>
+                  {notifLoading ? (
+                    <div className="px-4 py-4 text-gray-500">Loading...</div>
+                  ) : notifications.length === 0 ? (
+                    <div className="px-4 py-4 text-gray-500">No new requests</div>
+                  ) : (
+                    notifications.slice(0, 5).map((req) => (
+                      <div key={req._id} className="px-4 py-3 hover:bg-gray-50 flex items-center gap-3 border-b last:border-b-0">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold">
+                          {req.sender?.name ? req.sender.name[0] : 'U'}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-gray-800">{req.sender?.name || 'Unknown User'}</div>
+                          <div className="text-xs text-gray-500 truncate">{req.sender?.email}</div>
+                          <div className="text-xs text-blue-600 mt-1">{req.skillsOffered?.join(', ')}</div>
+                        </div>
+                        <a
+                          href="/requests"
+                          className="text-xs text-purple-600 font-semibold underline ml-2"
+                          onClick={() => setShowNotifDropdown(false)}
+                        >View</a>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {currentUser ? (

@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { google } from 'googleapis';
+import fs from 'fs';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -57,3 +59,47 @@ export const optionalAuth = async (req, res, next) => {
 
   next();
 }; 
+
+// Load your service account credentials
+const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+const GOOGLE_CREDENTIALS_PATH = './path/to/your-service-account.json'; // update this path
+
+const calendar = google.calendar('v3');
+
+export async function createGoogleMeet(scheduledTime, summary = 'Skill Swap Meeting') {
+  const auth = new google.auth.GoogleAuth({
+    keyFile: GOOGLE_CREDENTIALS_PATH,
+    scopes: SCOPES,
+  });
+
+  const authClient = await auth.getClient();
+
+  const CALENDAR_ID = 'lokeshvyas.prof@gmail.com';
+
+  const event = {
+    summary,
+    start: {
+      dateTime: new Date(scheduledTime).toISOString(),
+      timeZone: 'UTC',
+    },
+    end: {
+      dateTime: new Date(new Date(scheduledTime).getTime() + 60 * 60 * 1000).toISOString(), // 1 hour meeting
+      timeZone: 'UTC',
+    },
+    conferenceData: {
+      createRequest: {
+        requestId: Math.random().toString(36).substring(2, 15),
+        conferenceSolutionKey: { type: 'hangoutsMeet' },
+      },
+    },
+  };
+
+  const response = await calendar.events.insert({
+    auth: authClient,
+    calendarId: CALENDAR_ID,
+    resource: event,
+    conferenceDataVersion: 1,
+  });
+
+  return response.data.conferenceData.entryPoints[0].uri; // This is the real Meet link
+} 

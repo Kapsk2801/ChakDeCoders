@@ -2,6 +2,7 @@ import express from 'express';
 import Request from '../models/Request.js';
 import User from '../models/User.js';
 import { protect } from '../middleware/authMiddleware.js';
+import { createGoogleMeet } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -12,6 +13,16 @@ router.post('/', protect, async (req, res) => {
     const receiver = await User.findById(receiverId);
     if (!receiver) return res.status(404).json({ message: 'Receiver not found' });
 
+    // Generate a real Google Meet link
+    let meetLink = '';
+    try {
+      meetLink = await createGoogleMeet(scheduledTime, 'Skill Swap Meeting');
+    } catch (err) {
+      console.error('Google Meet creation failed:', err);
+      // Fallback: generate a random link if Google Meet fails
+      meetLink = 'https://meet.google.com/' + Math.random().toString(36).substring(2, 9);
+    }
+
     const request = await Request.create({
       sender: req.user._id,
       receiver: receiverId,
@@ -20,6 +31,7 @@ router.post('/', protect, async (req, res) => {
       message,
       scheduledTime,
       status: 'pending',
+      meetLink
     });
     res.status(201).json(request);
   } catch (err) {

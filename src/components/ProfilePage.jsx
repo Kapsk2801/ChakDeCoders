@@ -1,14 +1,43 @@
 import { useState, useEffect } from 'react';
-import { Camera, Save, ArrowLeft } from 'lucide-react';
+import { Camera, Save, ArrowLeft, Sparkles, Zap } from 'lucide-react';
 import SkillTagInput from './SkillTagInput';
 import AvailabilityCheckboxes from './AvailabilityCheckboxes';
 import VisibilityToggle from './VisibilityToggle';
+import AIProfileGenerator from './AIProfileGenerator';
+import VoiceSkillRecognition from './VoiceSkillRecognition';
+import ARSkillPreview from './ARSkillPreview';
+import SkillMatchVisualizer from './SkillMatchVisualizer';
 import { defaultUserProfile } from '../types';
 
 const ProfilePage = ({ currentUser, onBack, onSave }) => {
   const [profile, setProfile] = useState(defaultUserProfile);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [showAITools, setShowAITools] = useState(false);
+  const [allUsers] = useState([
+    // Mock users for skill matching
+    {
+      id: 1,
+      name: "Sarah Chen",
+      skillsOffered: ["React", "JavaScript", "UI/UX Design"],
+      skillsWanted: ["Python", "Machine Learning"],
+      isPublic: true
+    },
+    {
+      id: 2,
+      name: "Marcus Johnson",
+      skillsOffered: ["Python", "Data Science", "Machine Learning"],
+      skillsWanted: ["React", "Frontend Development"],
+      isPublic: true
+    },
+    {
+      id: 3,
+      name: "Emily Rodriguez",
+      skillsOffered: ["Graphic Design", "Adobe Creative Suite", "Branding"],
+      skillsWanted: ["Web Development", "CSS"],
+      isPublic: true
+    }
+  ]);
 
   useEffect(() => {
     if (currentUser) {
@@ -71,6 +100,22 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleAIGeneratedProfile = (aiProfile) => {
+    setProfile(prev => ({
+      ...prev,
+      ...aiProfile,
+      availability: aiProfile.availability || prev.availability
+    }));
+    setShowAITools(false);
+  };
+
+  const handleVoiceSkillsDetected = (skills) => {
+    setProfile(prev => ({
+      ...prev,
+      skillsOffered: [...new Set([...prev.skillsOffered, ...skills])]
+    }));
   };
 
   return (
@@ -231,6 +276,38 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
             </button>
           </div>
         </form>
+
+        {/* AI Tools Section */}
+        <div className="mt-12">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
+              <h2 className="text-2xl font-bold text-gray-900">AI-Powered Tools</h2>
+              <Zap className="w-8 h-8 text-yellow-400 animate-bounce" />
+            </div>
+            <p className="text-gray-600">Experience the future of profile creation!</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* AI Profile Generator */}
+            <AIProfileGenerator onGenerateProfile={handleAIGeneratedProfile} />
+
+            {/* Voice Skill Recognition */}
+            <VoiceSkillRecognition onSkillsDetected={handleVoiceSkillsDetected} />
+
+            {/* AR Skill Preview */}
+            <ARSkillPreview 
+              skills={[...profile.skillsOffered, ...profile.skillsWanted]} 
+              user={profile}
+            />
+
+            {/* Skill Match Visualizer */}
+            <SkillMatchVisualizer 
+              currentUser={profile} 
+              allUsers={allUsers}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Pagination from './components/Pagination';
 import LoginModal from './components/LoginModal';
 import SwapModal from './components/SwapModal';
 import ProfilePage from './components/ProfilePage';
+import HeroSection from './components/HeroSection';
 import { mockUsers, availabilityOptions } from './data/mockUsers';
 import './App.css';
 
@@ -195,12 +196,15 @@ function App() {
       <Route 
         path="/" 
         element={
-          <HomePage 
-            currentUser={currentUser}
-            onLogout={handleLogout}
-            onLoginClick={handleLogin}
-            onProfileClick={handleProfileClick}
-          />
+          <div>
+            <HeroSection />
+            <HomePage 
+              currentUser={currentUser}
+              onLogout={handleLogout}
+              onLoginClick={handleLogin}
+              onProfileClick={handleProfileClick}
+            />
+          </div>
         } 
       />
       <Route 

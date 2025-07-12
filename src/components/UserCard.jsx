@@ -91,9 +91,9 @@ const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
         <div className="flex items-center space-x-4 flex-shrink-0">
           {/* Profile Photo */}
           <div className="relative">
-            {user.profilePhoto ? (
+            {(user.avatar || user.profilePhoto) ? (
               <img
-                src={user.profilePhoto}
+                src={user.avatar || user.profilePhoto}
                 alt={user.name}
                 className="w-16 h-16 rounded-full object-cover border-3 border-white shadow-md"
               />
@@ -160,20 +160,28 @@ const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
             <div>
               <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                Skills Wanted
+                Skills Wanted ({user.skillsWanted ? user.skillsWanted.length : 0})
               </h4>
               <div className="flex flex-wrap gap-1.5">
-                {user.skillsWanted.slice(0, 3).map((skill, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-xs rounded-full font-medium border border-blue-200"
-                  >
-                    {skill}
-                  </span>
-                ))}
-                {user.skillsWanted.length > 3 && (
-                  <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                    +{user.skillsWanted.length - 3} more
+                {user.skillsWanted && user.skillsWanted.length > 0 ? (
+                  <>
+                    {user.skillsWanted.slice(0, 3).map((skill, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-xs rounded-full font-medium border border-blue-200"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {user.skillsWanted.length > 3 && (
+                      <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+                        +{user.skillsWanted.length - 3} more
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full font-medium">
+                    No skills wanted
                   </span>
                 )}
               </div>
@@ -217,7 +225,7 @@ const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
           
           <button
             className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded-xl transition-all duration-200 border border-gray-200"
-            onClick={() => navigate(`/profile/${user.id}`)}
+            onClick={() => navigate(`/profile/${user._id}`)}
           >
             View Profile
           </button>

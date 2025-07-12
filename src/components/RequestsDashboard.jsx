@@ -3,8 +3,10 @@ import { requestAPI, tokenManager } from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Star, User, MapPin, Clock } from 'lucide-react';
+import ModernNavbar from './ModernNavbar';
+import ModernFooter from './ModernFooter';
 
-const RequestsDashboard = ({ currentUser }) => {
+const RequestsDashboard = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
   const [activeTab, setActiveTab] = useState('received');
   const [received, setReceived] = useState([]);
   const [sent, setSent] = useState([]);
@@ -290,36 +292,56 @@ const RequestsDashboard = ({ currentUser }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <ToastContainer position="top-right" autoClose={2500} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss pauseOnHover />
-      <h1 className="text-2xl font-bold mb-4">Skill Swap Requests</h1>
-      <div className="flex space-x-4 mb-6">
-        <button
-          className={`px-4 py-2 rounded ${activeTab === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-          onClick={() => setActiveTab('all')}
-        >
-          All
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${activeTab === 'received' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-          onClick={() => setActiveTab('received')}
-        >
-          Received
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${activeTab === 'sent' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-          onClick={() => setActiveTab('sent')}
-        >
-          Sent
-        </button>
-      </div>
-      <div>
-        {activeTab === 'all'
-          ? renderRequests(all, 'all')
-          : activeTab === 'received'
-            ? renderRequests(received, 'received')
-            : renderRequests(sent, 'sent')}
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Modern Navigation */}
+      <ModernNavbar 
+        currentUser={currentUser}
+        onLogout={onLogout}
+        onLoginClick={onLoginClick}
+        onProfileClick={onProfileClick}
+      />
+      {/* Main Content */}
+      <main id="main-content" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
+        {/* Page Title */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            Your Skill Swap Requests
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            View, manage, and respond to all your skill exchange requests. Switch between received, sent, and all requests using the tabs below.
+          </p>
+        </div>
+        {/* Tabs */}
+        <div className="flex justify-center space-x-4 mb-8">
+          <button
+            className={`px-6 py-2 rounded-full font-semibold shadow-sm transition-all duration-200 border-2 focus:outline-none ${activeTab === 'all' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50'}`}
+            onClick={() => setActiveTab('all')}
+          >
+            All
+          </button>
+          <button
+            className={`px-6 py-2 rounded-full font-semibold shadow-sm transition-all duration-200 border-2 focus:outline-none ${activeTab === 'received' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50'}`}
+            onClick={() => setActiveTab('received')}
+          >
+            Received
+          </button>
+          <button
+            className={`px-6 py-2 rounded-full font-semibold shadow-sm transition-all duration-200 border-2 focus:outline-none ${activeTab === 'sent' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50'}`}
+            onClick={() => setActiveTab('sent')}
+          >
+            Sent
+          </button>
+        </div>
+        {/* Request List */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10 border border-gray-100">
+          {activeTab === 'all'
+            ? renderRequests(all, 'all')
+            : activeTab === 'received'
+              ? renderRequests(received, 'received')
+              : renderRequests(sent, 'sent')}
+        </div>
+      </main>
+      <ModernFooter />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import SkillTagInput from './SkillTagInput';
 import AvailabilityCheckboxes from './AvailabilityCheckboxes';
 import VisibilityToggle from './VisibilityToggle';
 import { defaultUserProfile } from '../types';
+import { userAPI, tokenManager } from '../services/api';
 
 const ProfilePage = ({ currentUser, onBack, onSave }) => {
   const [profile, setProfile] = useState(defaultUserProfile);
@@ -18,16 +19,33 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
-      setProfile({
-        ...defaultUserProfile,
-        ...currentUser,
-        skillsOffered: currentUser.skillsOffered || [],
-        skillsWanted: currentUser.skillsWanted || [],
-        availability: currentUser.availability ? [currentUser.availability] : []
-      });
-      setImagePreview(currentUser.profilePhoto);
-    }
+    const fetchProfile = async () => {
+      setIsLoading(true);
+      try {
+        let user = currentUser;
+        if (!user) {
+          const token = tokenManager.getToken();
+          if (token) {
+            user = await userAPI.getMyProfile(token);
+          }
+        }
+        if (user) {
+          setProfile({
+            ...defaultUserProfile,
+            ...user,
+            skillsOffered: user.skillsOffered || [],
+            skillsWanted: user.skillsWanted || [],
+            availability: Array.isArray(user.availability) ? user.availability : (user.availability ? [user.availability] : [])
+          });
+          setImagePreview(user.profilePhoto || user.avatar || '');
+        }
+      } catch (err) {
+        setErrors({ submit: 'Failed to load profile.' });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProfile();
   }, [currentUser]);
 
   const validateForm = () => {
@@ -99,31 +117,27 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!validateForm()) {
       return;
     }
-
     setIsLoading(true);
-    
     try {
+      const token = tokenManager.getToken();
+      if (!token) throw new Error('Not authenticated');
       const updatedProfile = {
         ...profile,
-        availability: profile.availability.join(', ')
+        availability: Array.isArray(profile.availability) ? profile.availability[0] : profile.availability
       };
-      
-      await onSave(updatedProfile);
-      
+      const saved = await userAPI.updateProfile(token, updatedProfile);
+      if (onSave) onSave(saved);
       // Show success message
       const successMessage = document.createElement('div');
       successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
       successMessage.textContent = 'Profile saved successfully!';
       document.body.appendChild(successMessage);
-      
       setTimeout(() => {
         document.body.removeChild(successMessage);
       }, 3000);
-      
     } catch (error) {
       console.error('Error saving profile:', error);
       setErrors({ submit: 'Error saving profile. Please try again.' });

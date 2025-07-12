@@ -196,7 +196,12 @@ function App() {
             path="/requests" 
             element={
               <PageTransition>
-                <RequestsDashboard currentUser={currentUser} />
+                <RequestsDashboard 
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                  onLoginClick={handleLogin}
+                  onProfileClick={handleProfileClick}
+                />
               </PageTransition>
             } 
           />

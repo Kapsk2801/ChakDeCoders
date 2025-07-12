@@ -79,6 +79,7 @@ router.get('/:id', async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 router.put('/profile', protect, async (req, res) => {
+  console.log('PUT /api/users/profile body:', req.body);
   try {
     const {
       name,
@@ -109,7 +110,8 @@ router.put('/profile', protect, async (req, res) => {
     res.json(updatedUser);
   } catch (error) {
     console.error('Update profile error:', error);
-    res.status(500).json({ message: 'Server error' });
+    if (error.stack) console.error(error.stack);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 

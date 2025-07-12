@@ -4,12 +4,16 @@ import { SearchAndFilter } from './components/SearchAndFilter';
 import { UserCard } from './components/UserCard';
 import { Pagination } from './components/Pagination';
 import { mockUsers } from './data/mockUsers';
+<<<<<<< HEAD
 import type { FilterOptions } from './types';
+=======
+import { SearchFilters } from './types';
+>>>>>>> 346f82a2090875c40d5c4edc95718334345f18dc
 
 const USERS_PER_PAGE = 6;
 
 function App() {
-  const [filters, setFilters] = useState<FilterOptions>({
+  const [filters, setFilters] = useState<SearchFilters>({
     searchTerm: '',
     availability: 'All',
   });
@@ -34,7 +38,7 @@ function App() {
   const startIndex = (currentPage - 1) * USERS_PER_PAGE;
   const paginatedUsers = filteredUsers.slice(startIndex, startIndex + USERS_PER_PAGE);
 
-  const handleFiltersChange = (newFilters: FilterOptions) => {
+  const handleFiltersChange = (newFilters: SearchFilters) => {
     setFilters(newFilters);
     setCurrentPage(1); // Reset to first page when filters change
   };

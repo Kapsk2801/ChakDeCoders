@@ -16,7 +16,7 @@ export interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export interface FilterOptions {
+export interface SearchFilters {
   searchTerm: string;
   availability: string;
 }

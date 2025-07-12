@@ -109,6 +109,15 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
                       </button>
                       <button
                         onClick={() => {
+                          window.location.href = '/requests';
+                          setIsDropdownOpen(false);
+                        }}
+                        className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        Requests
+                      </button>
+                      <button
+                        onClick={() => {
                           onLogout();
                           setIsDropdownOpen(false);
                         }}
@@ -199,6 +208,15 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
                         className="block w-full text-left text-gray-700 hover:text-purple-600 font-medium py-2"
                       >
                         Profile
+                      </button>
+                      <button
+                        onClick={() => {
+                          window.location.href = '/requests';
+                          setIsOpen(false);
+                        }}
+                        className="block w-full text-left text-gray-700 hover:text-purple-600 font-medium py-2"
+                      >
+                        Requests
                       </button>
                       <button
                         onClick={() => {

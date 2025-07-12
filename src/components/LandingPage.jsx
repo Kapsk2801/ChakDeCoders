@@ -127,11 +127,6 @@ const LandingPage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
         setCurrentTestimonial={setCurrentTestimonial}
       />
 
-      {/* Pricing Section */}
-      <div id="pricing">
-        <PricingSection />
-      </div>
-
       {/* CTA Section */}
       <CTASection />
 

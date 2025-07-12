@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, MessageCircle, Calendar, Clock, ArrowRight, Send, Users, Star, MapPin, Zap, Check
 } from 'lucide-react';
+import { requestAPI, tokenManager } from '../services/api';
 
 const steps = [
   'What can you teach?',
@@ -55,8 +56,14 @@ const SwapModal = ({ isOpen, onClose, user, currentUser }) => {
   const handleSendRequest = async () => {
     setIsSending(true);
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const token = tokenManager.getToken();
+      await requestAPI.create(token, {
+        receiverId: user._id,
+        skillsOffered: selectedTeach,
+        skillsWanted: selectedLearn,
+        message,
+        scheduledTime: date && time ? new Date(`${date}T${time}`) : undefined,
+      });
       alert(`Skill swap request sent to ${user.name}!`);
       handleClose();
     } catch (error) {

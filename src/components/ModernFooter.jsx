@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   Github, Twitter, Linkedin, Mail, Heart,
   MapPin, Phone, Globe, ArrowUp
@@ -11,14 +12,15 @@ const ModernFooter = () => {
 
   const footerLinks = {
     product: [
-      { name: 'Features', href: '#features' },
-      { name: 'How It Works', href: '#how-it-works' },
-      { name: 'Pricing', href: '#pricing' },
+      { name: 'Explore', href: '/explore' },
+      { name: 'Features', href: '/features' },
+      { name: 'How It Works', href: '/how-it-works' },
+      { name: 'Pricing', href: '/pricing' },
       { name: 'API', href: '#' },
       { name: 'Documentation', href: '#' }
     ],
     company: [
-      { name: 'About', href: '#about' },
+      { name: 'About', href: '/about' },
       { name: 'Blog', href: '#' },
       { name: 'Careers', href: '#' },
       { name: 'Press', href: '#' },
@@ -26,7 +28,7 @@ const ModernFooter = () => {
     ],
     support: [
       { name: 'Help Center', href: '#' },
-      { name: 'Contact Us', href: '#' },
+      { name: 'Contact Us', href: '/contact' },
       { name: 'Status', href: '#' },
       { name: 'Community', href: '#' },
       { name: 'Feedback', href: '#' }
@@ -97,12 +99,12 @@ const ModernFooter = () => {
             <ul className="space-y-3">
               {footerLinks.product.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -117,12 +119,12 @@ const ModernFooter = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -137,12 +139,12 @@ const ModernFooter = () => {
             <ul className="space-y-3">
               {footerLinks.support.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -157,12 +159,12 @@ const ModernFooter = () => {
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

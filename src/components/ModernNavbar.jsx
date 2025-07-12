@@ -1,35 +1,28 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const location = useLocation();
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'Features', href: '#features' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'About', href: '#about' }
+    { name: 'Home', href: '/' },
+    { name: 'Explore', href: '/explore' },
+    { name: 'Features', href: '/features' },
+    { name: 'How It Works', href: '/how-it-works' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' }
   ];
 
-  const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const isActivePage = (href) => {
+    if (href === '/') {
+      return location.pathname === '/';
     }
-    setIsOpen(false);
+    return location.pathname === href;
   };
 
   return (
@@ -37,11 +30,7 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50' 
-          : 'bg-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -50,27 +39,34 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SK</span>
-            </div>
-            <span className={`font-bold text-xl ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
-              SkillKarma
-            </span>
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SK</span>
+              </div>
+              <span className="font-bold text-xl text-gray-900">
+                SkillKarma
+              </span>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
-              <motion.button
+              <motion.div
                 key={index}
                 whileHover={{ y: -2 }}
-                onClick={() => scrollToSection(item.href)}
-                className={`text-sm font-medium transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-purple-600' : 'text-white/90 hover:text-white'
-                }`}
               >
-                {item.name}
-              </motion.button>
+                <Link
+                  to={item.href}
+                  className={`text-sm font-medium transition-colors ${
+                    isActivePage(item.href)
+                      ? 'text-purple-600'
+                      : 'text-gray-700 hover:text-purple-600'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
             ))}
           </div>
 
@@ -82,7 +78,7 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-full border border-white/30 hover:bg-white/20 transition-all duration-300"
+                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                 >
                   <img
                     src={currentUser.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'}
@@ -130,7 +126,7 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onLoginClick}
-                  className="px-6 py-2 text-white font-medium hover:text-purple-200 transition-colors"
+                  className="px-6 py-2 text-gray-700 font-medium hover:text-purple-600 transition-colors"
                 >
                   Sign In
                 </motion.button>
@@ -138,7 +134,7 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onLoginClick}
-                  className="px-6 py-2 bg-white/10 backdrop-blur-sm text-white font-medium rounded-full border border-white/30 hover:bg-white/20 transition-all duration-300"
+                  className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                 >
                   Get Started
                 </motion.button>
@@ -150,12 +146,12 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/30"
+            className="md:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
           >
             {isOpen ? (
-              <X className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
+              <X className="w-6 h-6 text-gray-900" />
             ) : (
-              <Menu className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-white'}`} />
+              <Menu className="w-6 h-6 text-gray-900" />
             )}
           </motion.button>
         </div>
@@ -168,20 +164,28 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden bg-white/95 backdrop-blur-md rounded-xl mt-4 p-4 border border-gray-200/50"
+              className="md:hidden bg-white rounded-xl mt-4 p-4 border border-gray-200 shadow-lg"
             >
               <div className="space-y-4">
                 {navItems.map((item, index) => (
-                  <motion.button
+                  <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    onClick={() => scrollToSection(item.href)}
-                    className="block w-full text-left text-gray-700 hover:text-purple-600 font-medium py-2"
                   >
-                    {item.name}
-                  </motion.button>
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`block w-full text-left font-medium py-2 ${
+                        isActivePage(item.href)
+                          ? 'text-purple-600'
+                          : 'text-gray-700 hover:text-purple-600'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
                 ))}
                 
                 <div className="pt-4 border-t border-gray-200">

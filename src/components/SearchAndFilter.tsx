@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Sparkles } from 'lucide-react';
 import type { SearchFilters } from '../types';
 
 interface SearchAndFilterProps {
@@ -14,10 +14,12 @@ export const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   const availabilityOptions = ['All', 'Weekends', 'Evenings', 'Weekdays', 'Flexible'];
 
   return (
-    <div className="glass-card p-6 mb-8 animate-slide-up">
+    <div className="glass-card p-8 mb-12 animate-slide-up glow-effect">
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-400">
+            <Search className="w-5 h-5" />
+          </div>
           <input
             type="text"
             placeholder="Search by skills (e.g., React, Python, Design...)"
@@ -25,25 +27,35 @@ export const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
             onChange={(e) =>
               onFiltersChange({ ...filters, searchTerm: e.target.value })
             }
-            className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+            className="w-full pl-12 pr-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-400 focus:bg-white/10 transition-all duration-300 text-lg backdrop-blur-sm"
           />
+          <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+            <Sparkles className="w-5 h-5 text-pink-400 animate-pulse-soft" />
+          </div>
         </div>
         
         <div className="relative">
-          <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-emerald-400">
+            <Filter className="w-5 h-5" />
+          </div>
           <select
             value={filters.availability}
             onChange={(e) =>
               onFiltersChange({ ...filters, availability: e.target.value })
             }
-            className="pl-10 pr-8 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 appearance-none cursor-pointer min-w-[200px]"
+            className="pl-12 pr-10 py-4 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-400 focus:bg-white/10 transition-all duration-300 appearance-none cursor-pointer min-w-[220px] text-lg backdrop-blur-sm font-medium"
           >
             {availabilityOptions.map((option) => (
-              <option key={option} value={option} className="bg-dark-800 text-white">
+              <option key={option} value={option} className="bg-slate-800 text-white font-medium">
                 {option === 'All' ? 'All Availability' : option}
               </option>
             ))}
           </select>
+          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
+            <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>

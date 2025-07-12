@@ -4,6 +4,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 
+// Import routes
+import authRoutes from './routes/authRoutes.js';
+
 // Load environment variables
 dotenv.config();
 
@@ -32,6 +35,9 @@ mongoose.connect(MONGODB_URI, {
   console.error('MongoDB connection error:', error);
   console.log('Server will continue running without database connection');
 });
+
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import UserCard from './components/UserCard';
@@ -11,6 +11,7 @@ import HeroSection from './components/HeroSection';
 import AIMatchingSystem from './components/AIMatchingSystem';
 import VoiceSkillRecognition from './components/VoiceSkillRecognition';
 import { mockUsers, availabilityOptions } from './data/mockUsers';
+import { authAPI, tokenManager } from './services/api';
 import './App.css';
 
 // HomePage Component
@@ -197,7 +198,27 @@ function HomePage({ currentUser, onLogout, onLoginClick, onProfileClick }) {
 // Main App Component
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  // Check for existing token on app load
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = tokenManager.getToken();
+      if (token) {
+        try {
+          const userData = await authAPI.getProfile(token);
+          setCurrentUser(userData);
+        } catch (error) {
+          console.error('Token validation failed:', error);
+          tokenManager.removeToken();
+        }
+      }
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, []);
 
   const handleLogin = (userData) => {
     setCurrentUser(userData);
@@ -205,6 +226,7 @@ function App() {
 
   const handleLogout = () => {
     setCurrentUser(null);
+    tokenManager.removeToken();
   };
 
   const handleProfileClick = () => {
@@ -220,6 +242,18 @@ function App() {
   const handleBackToHome = () => {
     navigate('/');
   };
+
+  // Show loading spinner while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Routes>

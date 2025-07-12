@@ -18,6 +18,7 @@ import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ExplorePage from './pages/ExplorePage';
+import ScrollToTop from './components/ScrollToTop';
 import UserProfilePage from './pages/UserProfilePage';
 
 // Main App Component
@@ -115,7 +116,7 @@ function App() {
             <PageTransition>
               <ProfilePage 
                 currentUser={currentUser}
-                onBack={handleBackToHome}
+                onBack={() => navigate('/explore')}
                 onSave={handleProfileSave}
               />
             </PageTransition>
@@ -203,6 +204,7 @@ function App() {
 function AppWrapper() {
   return (
     <Router>
+      <ScrollToTop />
       <App />
     </Router>
   );

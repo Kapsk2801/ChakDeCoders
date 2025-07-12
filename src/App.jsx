@@ -1,13 +1,13 @@
 import { useState, useMemo } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import Header from './components/Header';
+import ModernNavbar from './components/ModernNavbar';
 import UserCard from './components/UserCard';
 import SearchAndFilter from './components/SearchAndFilter';
 import Pagination from './components/Pagination';
 import LoginModal from './components/LoginModal';
 import SwapModal from './components/SwapModal';
 import ProfilePage from './components/ProfilePage';
-import HeroSection from './components/HeroSection';
+import LandingPage from './components/LandingPage';
 import AIMatchingSystem from './components/AIMatchingSystem';
 import VoiceSkillRecognition from './components/VoiceSkillRecognition';
 import { mockUsers, availabilityOptions } from './data/mockUsers';
@@ -81,8 +81,8 @@ function HomePage({ currentUser, onLogout, onLoginClick, onProfileClick }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <Header 
+      {/* Modern Navigation */}
+      <ModernNavbar 
         currentUser={currentUser}
         onLogout={onLogout}
         onLoginClick={() => setShowLoginModal(true)}
@@ -227,7 +227,7 @@ function App() {
         path="/" 
         element={
           <div>
-            <HeroSection />
+            <LandingPage />
             <HomePage 
               currentUser={currentUser}
               onLogout={handleLogout}

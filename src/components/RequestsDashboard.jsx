@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { requestAPI, tokenManager } from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Star, User, MapPin, Clock } from 'lucide-react';
+import { Star, User, MapPin, Clock, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const RequestsDashboard = ({ currentUser }) => {
   const [activeTab, setActiveTab] = useState('received');
@@ -12,6 +14,7 @@ const RequestsDashboard = ({ currentUser }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [actionLoading, setActionLoading] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -291,6 +294,15 @@ const RequestsDashboard = ({ currentUser }) => {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
+      <motion.button
+        whileHover={{ scale: 1.05, x: -2 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => navigate('/explore')}
+        className="group flex items-center text-gray-600 hover:text-gray-800 transition-all duration-200 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 hover:shadow-md mb-8"
+      >
+        <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform duration-200" />
+        <span className="ml-2 font-medium">Back to Explore</span>
+      </motion.button>
       <ToastContainer position="top-right" autoClose={2500} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss pauseOnHover />
       <h1 className="text-2xl font-bold mb-4">Skill Swap Requests</h1>
       <div className="flex space-x-4 mb-6">

@@ -8,6 +8,8 @@ import LoginModal from './components/LoginModal';
 import SwapModal from './components/SwapModal';
 import ProfilePage from './components/ProfilePage';
 import HeroSection from './components/HeroSection';
+import AIMatchingSystem from './components/AIMatchingSystem';
+import VoiceSkillRecognition from './components/VoiceSkillRecognition';
 import { mockUsers, availabilityOptions } from './data/mockUsers';
 import './App.css';
 
@@ -88,7 +90,7 @@ function HomePage({ currentUser, onLogout, onLoginClick, onProfileClick }) {
       />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Title */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
@@ -145,6 +147,34 @@ function HomePage({ currentUser, onLogout, onLoginClick, onProfileClick }) {
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
+
+        {/* AI-Powered Features Section */}
+        <div className="mt-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Experience the Future of Skill Exchange
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Powered by cutting-edge AI technology for seamless skill matching and voice recognition
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* AI Matching System */}
+            <AIMatchingSystem 
+              currentUser={currentUser}
+              allUsers={mockUsers}
+            />
+
+            {/* Voice Skill Recognition */}
+            <VoiceSkillRecognition 
+              onSkillsDetected={(skills) => {
+                console.log('Voice skills detected:', skills);
+                // In a real app, this would update the user's skills
+              }}
+            />
+          </div>
+        </div>
       </main>
 
       {/* Modals */}

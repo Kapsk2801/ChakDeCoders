@@ -3,10 +3,7 @@ import { Camera, Save, ArrowLeft, Sparkles, Zap } from 'lucide-react';
 import SkillTagInput from './SkillTagInput';
 import AvailabilityCheckboxes from './AvailabilityCheckboxes';
 import VisibilityToggle from './VisibilityToggle';
-import AIProfileGenerator from './AIProfileGenerator';
-import VoiceSkillRecognition from './VoiceSkillRecognition';
-import ARSkillPreview from './ARSkillPreview';
-import SkillMatchVisualizer from './SkillMatchVisualizer';
+
 import { defaultUserProfile } from '../types';
 
 const ProfilePage = ({ currentUser, onBack, onSave }) => {
@@ -102,21 +99,7 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
     }
   };
 
-  const handleAIGeneratedProfile = (aiProfile) => {
-    setProfile(prev => ({
-      ...prev,
-      ...aiProfile,
-      availability: aiProfile.availability || prev.availability
-    }));
-    setShowAITools(false);
-  };
 
-  const handleVoiceSkillsDetected = (skills) => {
-    setProfile(prev => ({
-      ...prev,
-      skillsOffered: [...new Set([...prev.skillsOffered, ...skills])]
-    }));
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 pt-24">
@@ -277,37 +260,7 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
           </div>
         </form>
 
-        {/* AI Tools Section */}
-        <div className="mt-12">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
-              <h2 className="text-2xl font-bold text-gray-900">AI-Powered Tools</h2>
-              <Zap className="w-8 h-8 text-yellow-400 animate-bounce" />
-            </div>
-            <p className="text-gray-600">Experience the future of profile creation!</p>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* AI Profile Generator */}
-            <AIProfileGenerator onGenerateProfile={handleAIGeneratedProfile} />
-
-            {/* Voice Skill Recognition */}
-            <VoiceSkillRecognition onSkillsDetected={handleVoiceSkillsDetected} />
-
-            {/* AR Skill Preview */}
-            <ARSkillPreview 
-              skills={[...profile.skillsOffered, ...profile.skillsWanted]} 
-              user={profile}
-            />
-
-            {/* Skill Match Visualizer */}
-            <SkillMatchVisualizer 
-              currentUser={profile} 
-              allUsers={allUsers}
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

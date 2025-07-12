@@ -8,10 +8,6 @@ import {
 import SkillTagInput from './SkillTagInput';
 import AvailabilityCheckboxes from './AvailabilityCheckboxes';
 import VisibilityToggle from './VisibilityToggle';
-<<<<<<< HEAD
-=======
-
->>>>>>> 9a93e37dcbd9272a667ddcace1738855f8c29221
 import { defaultUserProfile } from '../types';
 
 const ProfilePage = ({ currentUser, onBack, onSave }) => {
@@ -134,11 +130,6 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
     }
   };
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 9a93e37dcbd9272a667ddcace1738855f8c29221
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
@@ -343,7 +334,6 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
                 </div>
               </div>
 
-<<<<<<< HEAD
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Bio
@@ -474,8 +464,6 @@ const ProfilePage = ({ currentUser, onBack, onSave }) => {
                 <AlertCircle className="w-4 h-4 mr-2" />
                 {errors.submit}
               </p>
-=======
->>>>>>> 9a93e37dcbd9272a667ddcace1738855f8c29221
             </motion.div>
           )}
         </motion.form>

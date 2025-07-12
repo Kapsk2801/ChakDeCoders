@@ -43,27 +43,30 @@ const AboutPage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
 
   const team = [
     {
-      name: 'Sarah Johnson',
+      name: 'Saksham Kapoor',
       role: 'CEO & Founder',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+      image: '../src/assets/me.jpg',
       bio: 'Former Google engineer with a passion for connecting people through technology.'
     },
     {
-      name: 'Michael Chen',
+      name: 'Aayush Chawla',
       role: 'CTO',
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+      image: '../src/assets/aayush.jpg',
       bio: 'AI specialist with 10+ years experience in machine learning and product development.'
     },
     {
-      name: 'Emily Rodriguez',
+      name: 'Lokesh Vyas',
       role: 'Head of Product',
       image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+      image: '../src/assets/Lokesh.jpg',
       bio: 'Product strategist focused on creating meaningful user experiences.'
     },
     {
-      name: 'David Kim',
+      name: 'Zuhair Khambati',
       role: 'Head of Design',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+      image: '../src/assets/Zuhair.jpg',
       bio: 'Design leader with expertise in user interface and experience design.'
     }
   ];
@@ -134,7 +137,7 @@ const AboutPage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
                   learning happens through direct human connection and mutual exchange.
                 </p>
                 <p>
-                  Founded in 2023, we set out to create a platform that would democratize 
+                  Founded in 2025, we set out to create a platform that would democratize 
                   learning by enabling anyone to both teach and learn from others. Our vision 
                   is a world where knowledge flows freely between people, regardless of their 
                   background, location, or financial means.

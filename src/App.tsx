@@ -4,11 +4,7 @@ import { SearchAndFilter } from './components/SearchAndFilter';
 import { UserCard } from './components/UserCard';
 import { Pagination } from './components/Pagination';
 import { mockUsers } from './data/mockUsers';
-<<<<<<< HEAD
-import type { FilterOptions } from './types';
-=======
 import { SearchFilters } from './types';
->>>>>>> 346f82a2090875c40d5c4edc95718334345f18dc
 
 const USERS_PER_PAGE = 6;
 

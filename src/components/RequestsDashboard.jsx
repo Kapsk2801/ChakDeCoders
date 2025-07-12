@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { requestAPI, tokenManager } from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Star, User, MapPin, Clock } from 'lucide-react';
 
 const RequestsDashboard = ({ currentUser }) => {
   const [activeTab, setActiveTab] = useState('received');
@@ -102,6 +103,23 @@ const RequestsDashboard = ({ currentUser }) => {
     rejected: 'bg-red-100 text-red-800 border-red-300',
   };
 
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />);
+    }
+    if (hasHalfStar) {
+      stars.push(<Star key="half" className="w-3 h-3 fill-yellow-400/50 text-yellow-400" />);
+    }
+    const remainingStars = 5 - Math.ceil(rating);
+    for (let i = 0; i < remainingStars; i++) {
+      stars.push(<Star key={`empty-${i}`} className="w-3 h-3 text-gray-300" />);
+    }
+    return stars;
+  };
+
   const renderRequests = (requests, type) => {
     if (loading) return <p className="text-gray-500">Loading...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
@@ -123,32 +141,104 @@ const RequestsDashboard = ({ currentUser }) => {
           return (
             <li
               key={req._id}
-              className="border rounded-2xl p-6 bg-gradient-to-br from-white via-gray-50 to-blue-50 shadow-md flex flex-col md:flex-row items-center gap-6 transition-transform duration-200 hover:scale-[1.015] hover:shadow-lg group"
+              className="relative group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-1 flex flex-col md:flex-row items-center p-6 gap-6"
             >
-              {/* Avatar */}
-              <div className="flex-shrink-0">
-                {otherUser?.avatar ? (
-                  <img src={otherUser.avatar} alt={otherUser.name} className="w-16 h-16 rounded-full object-cover border-2 border-blue-200 group-hover:border-blue-400 transition-all" />
-                ) : (
-                  <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-2xl border-2 border-blue-100 group-hover:border-blue-400 transition-all">
-                    {otherUser?.name?.[0] || '?'}
-                  </div>
-                )}
-              </div>
-              {/* Info */}
-              <div className="flex-1 min-w-0 w-full">
-                <div className="flex flex-col md:flex-row md:items-center md:gap-3 gap-1">
-                  <span className="font-semibold text-xl truncate">{otherUser?.name || 'Unknown User'}</span>
-                  <span className="text-xs text-gray-500">({direction})</span>
-                  <span className={`ml-0 md:ml-2 px-2 py-1 rounded-full border text-xs font-semibold ${statusColors[req.status] || 'bg-gray-100 text-gray-700 border-gray-300'}`}>{req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
+              {/* Avatar & User Info */}
+              <div className="flex items-center space-x-4 flex-shrink-0 w-full md:w-auto">
+                {/* Avatar */}
+                <div className="relative">
+                  {otherUser?.avatar ? (
+                    <img src={otherUser.avatar} alt={otherUser.name} className="w-16 h-16 rounded-full object-cover border-3 border-white shadow-md" />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 border-3 border-white shadow-md flex items-center justify-center">
+                      <User className="w-7 h-7 text-white" />
+                    </div>
+                  )}
                 </div>
-                <div className="text-sm text-gray-600 truncate">{otherUser?.email}</div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Skills Offered: {req.skillsOffered?.join(', ') || '-'}</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Skills Wanted: {req.skillsWanted?.join(', ') || '-'}</span>
+                {/* User Info */}
+                <div className="flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-800 mb-1 flex items-center gap-2">
+                    {otherUser?.name || 'Unknown User'}
+                    <span className={`ml-2 px-2 py-1 rounded-full border text-xs font-semibold ${statusColors[req.status] || 'bg-gray-100 text-gray-700 border-gray-300'}`}>{req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
+                  </h3>
+                  {/* Rating */}
+                  <div className="flex items-center gap-1 mb-2">
+                    {renderStars(otherUser?.rating || 0)}
+                    <span className="text-sm text-gray-600 ml-1">({otherUser?.rating || 0})</span>
+                  </div>
+                  {/* Location & Availability */}
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      <span>{otherUser?.location || 'Location'}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      <span>{otherUser?.availability || 'Flexible'}</span>
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">{direction}</div>
+                  <div className="text-sm text-gray-600 truncate">{otherUser?.email}</div>
+                </div>
+              </div>
+              {/* Skills Section */}
+              <div className="flex-1 ml-0 md:ml-8 w-full md:w-auto">
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Skills Offered */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      Skills Offered
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {req.skillsOffered.slice(0, 3).map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                      {req.skillsOffered.length > 3 && (
+                        <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+                          +{req.skillsOffered.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  {/* Skills Wanted */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      Skills Wanted ({req.skillsWanted ? req.skillsWanted.length : 0})
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {req.skillsWanted && req.skillsWanted.length > 0 ? (
+                        <>
+                          {req.skillsWanted.slice(0, 3).map((skill, index) => (
+                            <span
+                              key={index}
+                              className="px-2 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-xs rounded-full font-medium border border-blue-200"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                          {req.skillsWanted.length > 3 && (
+                            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+                              +{req.skillsWanted.length - 3} more
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full font-medium">
+                          No skills wanted
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 {req.scheduledTime && (
-                  <div className="text-xs text-purple-700 mt-1 font-medium flex items-center gap-1">
+                  <div className="text-xs text-purple-700 mt-2 font-medium flex items-center gap-1">
                     <span className="inline-block w-2 h-2 bg-purple-400 rounded-full"></span>
                     Scheduled: {new Date(req.scheduledTime).toLocaleString()}
                   </div>
@@ -162,8 +252,8 @@ const RequestsDashboard = ({ currentUser }) => {
                   </div>
                 )}
               </div>
-              {/* Actions */}
-              <div className="flex flex-col gap-2 mt-4 md:mt-0 md:ml-4 w-full md:w-auto">
+              {/* Actions Section */}
+              <div className="flex flex-col gap-2 mt-4 md:mt-0 md:ml-4 w-full md:w-auto items-end">
                 {((type === 'received' || (type === 'all' && req._type === 'received')) && req.status === 'pending') && (
                   <>
                     <button

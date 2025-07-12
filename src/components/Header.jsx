@@ -8,7 +8,7 @@ const Header = ({ currentUser, onLogout, onLoginClick }) => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Users className="w-8 h-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-800">SkillSwap</h1>
+            <h1 className="text-2xl font-bold text-gray-800">SkillKarma</h1>
           </div>
 
           {/* User Actions */}

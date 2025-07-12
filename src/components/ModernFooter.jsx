@@ -15,7 +15,6 @@ const ModernFooter = () => {
       { name: 'Explore', href: '/explore' },
       { name: 'Features', href: '/features' },
       { name: 'How It Works', href: '/how-it-works' },
-      { name: 'Pricing', href: '/pricing' },
       { name: 'API', href: '#' },
       { name: 'Documentation', href: '#' }
     ],
@@ -46,7 +45,7 @@ const ModernFooter = () => {
     { name: 'Twitter', icon: Twitter, href: '#' },
     { name: 'LinkedIn', icon: Linkedin, href: '#' },
     { name: 'GitHub', icon: Github, href: 'https://github.com/Kapsk2801/ChakDeCoders' },
-    { name: 'Email', icon: Mail, href: 'mailto:zuhairkhambati@gmail.com' }
+    { name: 'Email', icon: Mail, href: 'mailto:kapoorsaksham25@gmail.com' }
   ];
 
   return (
@@ -181,15 +180,15 @@ const ModernFooter = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-purple-400" />
-              <span className="text-gray-400">MPSTME NMIMS</span>
+              <span className="text-gray-400">Mumbai, MH</span>
             </div>
             <div className="flex items-center space-x-3">
               <Phone className="w-5 h-5 text-purple-400" />
-              <span className="text-gray-400">+91 8745127125</span>
+              <span className="text-gray-400">+91 9876543210</span>
             </div>
             <div className="flex items-center space-x-3">
-              <Globe className="w-5 h-5 text-purple-400" />
-              <span className="text-gray-400">www.skillkarma.com</span>
+              <Mail className="w-5 h-5 text-purple-400" />
+              <span className="text-gray-400">kapoorsaksham25@gmail.com</span>
             </div>
           </div>
         </motion.div>

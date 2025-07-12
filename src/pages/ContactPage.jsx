@@ -11,22 +11,22 @@ const ContactPage = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =>
     {
       icon: Mail,
       title: 'Email Us',
-      value: 'hello@skillkarma.com',
+      value: 'kapoorsaksham25@gmail.com',
       description: 'We typically respond within 24 hours',
       color: 'from-blue-500 to-cyan-500'
     },
     {
       icon: Phone,
       title: 'Call Us',
-      value: '+1 (555) 123-4567',
-      description: 'Mon-Fri 9AM-6PM PST',
+      value: '+91 9876543210',
+      description: 'Mon-Fri 9AM-6PM IST',
       color: 'from-green-500 to-emerald-500'
     },
     {
       icon: MapPin,
       title: 'Visit Us',
-      value: 'San Francisco, CA',
-      description: '123 Innovation Street, SF 94105',
+      value: 'Mumbai, MH',
+      description: 'India',
       color: 'from-purple-500 to-pink-500'
     },
     {

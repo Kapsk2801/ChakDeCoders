@@ -1,11 +1,28 @@
 import { Star, User, MapPin, Clock, MessageCircle, Heart, Share2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const getFavourites = () => {
+  try {
+    return JSON.parse(localStorage.getItem('favourite_user_ids') || '[]');
+  } catch {
+    return [];
+  }
+};
+const setFavourites = (ids) => {
+  localStorage.setItem('favourite_user_ids', JSON.stringify(ids));
+  window.dispatchEvent(new Event('storage'));
+};
 
 const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const favs = getFavourites();
+    setIsLiked(favs.includes(user.id));
+  }, [user.id]);
 
   const handleRequestClick = () => {
     onRequestClick(user, isLoggedIn);
@@ -14,6 +31,20 @@ const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
   const handleLike = (e) => {
     e.stopPropagation();
     setIsLiked(!isLiked);
+  };
+
+  const handleFavourite = (e) => {
+    e.stopPropagation();
+    const favs = getFavourites();
+    let updated;
+    if (favs.includes(user.id)) {
+      updated = favs.filter(id => id !== user.id);
+      setIsLiked(false);
+    } else {
+      updated = [...favs, user.id];
+      setIsLiked(true);
+    }
+    setFavourites(updated);
   };
 
   const handleShare = (e) => {
@@ -163,12 +194,13 @@ const UserCard = ({ user, onRequestClick, isLoggedIn }) => {
           {/* Action Buttons */}
           <div className="flex gap-2">
             <button
-              onClick={handleLike}
+              onClick={handleFavourite}
               className={`p-2 rounded-full transition-all duration-200 ${
                 isLiked 
                   ? 'bg-red-500 text-white shadow-lg' 
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
+              title={isLiked ? 'Remove from Favourites' : 'Add to Favourites'}
             >
               <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
             </button>

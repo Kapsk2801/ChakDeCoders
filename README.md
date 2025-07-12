@@ -1,12 +1,28 @@
-# React + Vite
+# Skill Swap Platform – Odoo Hackathon 2025
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web platform that enables users to **list skills they offer**, find others with complementary skills, and **initiate swap requests**. Built for collaborative learning and peer-to-peer upskilling — without the need for payment.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Problem Statement
 
-## Expanding the ESLint configuration
+Develop a **Skill Swap Platform** — a mini-application that enables users to:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Create a profile with name, photo (optional), location (optional), and availability
+- List **skills they can offer** and **skills they want to learn**
+- Browse **public profiles** by skill
+- Send and respond to **swap requests**
+- Leave **ratings and feedback** after a skill exchange
+
+The platform should also support optional admin features like content moderation and user banning.
+
+---
+
+## Team Members
+
+| Name          | Email                      |
+|---------------|----------------------------|
+| Saksham Kapoor   | `kapoorsaksham25@gmail.com`   |
+| Aayush Chawla    | `aayushchawla5554@gmail.com`      |
+| Lokesh Vyas    | `lokeshvyas.prof@gmail.com`      |
+| Zuhair Khambati    | `zuhairkhambati@gmail.com`      |

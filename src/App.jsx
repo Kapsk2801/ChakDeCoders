@@ -20,6 +20,7 @@ import ContactPage from './pages/ContactPage';
 import ExplorePage from './pages/ExplorePage';
 import ScrollToTop from './components/ScrollToTop';
 import UserProfilePage from './pages/UserProfilePage';
+import RequestsDashboard from './components/RequestsDashboard';
 
 // Main App Component
 function App() {
@@ -123,10 +124,15 @@ function App() {
           } 
         />
         <Route 
-          path="/profile/:id" 
+          path="/profile/:userId" 
           element={
             <PageTransition>
-              <UserProfilePage currentUser={currentUser} />
+              <UserProfilePage 
+                currentUser={currentUser}
+                onLogout={handleLogout}
+                onLoginClick={handleLogin}
+                onProfileClick={handleProfileClick}
+              />
             </PageTransition>
           } 
         />
@@ -192,6 +198,14 @@ function App() {
                 onLoginClick={handleLogin}
                 onProfileClick={handleProfileClick}
               />
+            </PageTransition>
+          } 
+        />
+        <Route 
+          path="/requests" 
+          element={
+            <PageTransition>
+              <RequestsDashboard currentUser={currentUser} />
             </PageTransition>
           } 
         />

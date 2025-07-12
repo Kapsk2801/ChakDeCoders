@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 // Import routes
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import requestRoutes from './routes/requestRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -40,6 +41,7 @@ mongoose.connect(MONGODB_URI, {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/requests', requestRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

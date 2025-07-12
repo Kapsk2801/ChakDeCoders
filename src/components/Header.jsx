@@ -15,6 +15,13 @@ const Header = ({ currentUser, onLogout, onLoginClick, onProfileClick }) => {
           <div className="flex items-center gap-4">
             {currentUser ? (
               <div className="flex items-center gap-3">
+                <button
+                  onClick={() => window.location.href = '/requests'}
+                  className="flex items-center gap-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200"
+                >
+                  <Users className="w-4 h-4" />
+                  Requests
+                </button>
                 <div className="flex items-center gap-2">
                   <User className="w-5 h-5 text-gray-600" />
                   <span className="text-gray-700 font-medium">{currentUser.name}</span>

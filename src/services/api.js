@@ -127,6 +127,70 @@ export const userAPI = {
   },
 };
 
+// API service for skill swap requests
+export const requestAPI = {
+  // Fetch received requests
+  getReceived: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/requests/received`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return handleResponse(response);
+  },
+
+  // Fetch sent requests
+  getSent: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/requests/sent`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return handleResponse(response);
+  },
+
+  // Create a new request
+  create: async (token, requestData) => {
+    const response = await fetch(`${API_BASE_URL}/requests`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    });
+    return handleResponse(response);
+  },
+
+  // Accept a request
+  accept: async (token, requestId) => {
+    const response = await fetch(`${API_BASE_URL}/requests/${requestId}/accept`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return handleResponse(response);
+  },
+
+  // Reject a request
+  reject: async (token, requestId) => {
+    const response = await fetch(`${API_BASE_URL}/requests/${requestId}/reject`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return handleResponse(response);
+  },
+};
+
 // Token management
 export const tokenManager = {
   // Save token to localStorage

@@ -15,7 +15,6 @@ const ModernFooter = () => {
       { name: 'Explore', href: '/explore' },
       { name: 'Features', href: '/features' },
       { name: 'How It Works', href: '/how-it-works' },
-      { name: 'Pricing', href: '/pricing' },
       { name: 'API', href: '#' },
       { name: 'Documentation', href: '#' }
     ],

@@ -11,9 +11,9 @@ const ModernNavbar = ({ currentUser, onLogout, onLoginClick, onProfileClick }) =
   const navItems = [
     { name: 'Home', href: '/' },
     { name: 'Explore', href: '/explore' },
+    { name: 'Favourites', href: '/favourites' },
     { name: 'Features', href: '/features' },
     { name: 'How It Works', href: '/how-it-works' },
-    { name: 'Pricing', href: '/pricing' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' }
   ];

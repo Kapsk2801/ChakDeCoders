@@ -14,12 +14,12 @@ import './App.css';
 // Import new page components
 import FeaturesPage from './pages/FeaturesPage';
 import HowItWorksPage from './pages/HowItWorksPage';
-import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ExplorePage from './pages/ExplorePage';
 import ScrollToTop from './components/ScrollToTop';
 import UserProfilePage from './pages/UserProfilePage';
+import FavouritesPage from './pages/FavouritesPage';
 
 // Main App Component
 function App() {
@@ -157,19 +157,6 @@ function App() {
           } 
         />
         <Route 
-          path="/pricing" 
-          element={
-            <PageTransition>
-              <PricingPage 
-                currentUser={currentUser}
-                onLogout={handleLogout}
-                onLoginClick={handleLogin}
-                onProfileClick={handleProfileClick}
-              />
-            </PageTransition>
-          } 
-        />
-        <Route 
           path="/about" 
           element={
             <PageTransition>
@@ -191,6 +178,18 @@ function App() {
                 onLogout={handleLogout}
                 onLoginClick={handleLogin}
                 onProfileClick={handleProfileClick}
+              />
+            </PageTransition>
+          } 
+        />
+        <Route 
+          path="/favourites" 
+          element={
+            <PageTransition>
+              <FavouritesPage 
+                currentUser={currentUser}
+                onRequestClick={() => {}}
+                isLoggedIn={!!currentUser}
               />
             </PageTransition>
           } 
